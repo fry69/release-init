@@ -96,10 +96,17 @@ interface FileMapping {
 
 // Get template files from package structure
 function getPackageRoot(): string {
-  // import.meta.url points to src/main.ts
+  // import.meta.dirname points to the directory containing this file (src/)
+  // For compiled binaries, Deno 2.1+ supports reading included files via import.meta.dirname
   // We need to go up one level to get package root
-  const url = new URL("..", import.meta.url);
-  return url.pathname;
+  if (import.meta.dirname) {
+    // Deno 2.1+: use import.meta.dirname
+    return join(import.meta.dirname, "..");
+  } else {
+    // Fallback for older Deno versions
+    const url = new URL("..", import.meta.url);
+    return url.pathname;
+  }
 }
 
 // Define all files to copy

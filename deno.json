@@ -19,7 +19,7 @@
     "test:unit": "deno test -P tests/main_lib_test.ts",
     "test:integration": "deno test -P tests/integration_test.ts",
     "test:cli": "deno test -P tests/cli_test.ts",
-    "compile": "deno compile -P --output release src/main.ts",
+    "compile": "deno compile -P --include .github --include tools --output release src/main.ts",
     "install:local": "deno task compile && mv release $HOME/.local/bin/",
     "init": "deno run -A src/main.ts",
     "release": "deno run -A tools/release.ts",

@@ -155,10 +155,42 @@ Complete documentation provided:
 - Test documentation
 - This implementation summary
 
+### Bonus: Standalone Binary Compilation
+
+Successfully implemented binary compilation with embedded templates using Deno
+2.1+'s `--include` flag:
+
+**Compile Task:**
+
+```bash
+deno task compile
+```
+
+**Features:**
+
+- ✅ Embeds `.github/` and `tools/` directories (~87KB templates)
+- ✅ Binary size: ~70MB (includes Deno runtime)
+- ✅ Cross-platform compilation supported
+- ✅ Uses `import.meta.dirname` for proper path resolution
+- ✅ Templates accessible in compiled binary
+
+**Testing:**
+
+- ✅ Successfully compiled binary
+- ✅ Verified template embedding
+- ✅ End-to-end tested installation from binary
+- ✅ Help, version, and all flags work correctly
+
+**Documentation:** `docs/COMPILE_BINARY.md`
+
 ### Conclusion
 
 Successfully implemented a clean, maintainable, self-documenting init tool that
 uses the package's own files as templates. The "no templates folder" approach
 eliminates duplication and ensures templates are always tested and up-to-date.
+
+**Bonus achievement:** The tool can also be compiled into a standalone
+executable with all templates embedded, enabling distribution without requiring
+Deno installation.
 
 The tool is production-ready and fully tested.
