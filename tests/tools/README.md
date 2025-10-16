@@ -35,8 +35,19 @@ Individual tool script tests with extensive coverage:
   - Command-line interface validation
   - Help and version display
   - Argument parsing (major/minor/patch keywords)
-  - Flag recognition (--dry-run, --yes, --quiet)
+  - Flag recognition (--dry-run, --yes, --quiet, --root)
   - Error handling for invalid inputs
+
+- **`release-workflow.test.ts`** (15 tests) **NEW!**
+  - Full release workflow testing using --root flag
+  - Version bumps (major, minor, patch, explicit)
+  - File updates (deno.json, VERSION constant)
+  - Changelog integration and updates
+  - Git operations (commit, tag creation)
+  - Dry-run and quiet modes
+  - Custom entry points
+  - Prerelease version handling
+  - Multiple sequential releases
 
 ### Integration Tests
 
@@ -101,15 +112,36 @@ deno coverage coverage/
 4. **Independence**: Tests don't depend on each other
 5. **Realistic**: Integration tests simulate real-world workflows
 
-## Notes
+## The --root Flag Solution
 
-- The `release.ts` script is challenging to test in full isolation because it
-  uses `import.meta.filename` to determine the project root directory
-- Full release workflow testing would require mocking or modifying the actual
-  project files
-- We focus on CLI interface testing and integration with other tools instead
-- For complete release workflow validation, manual testing or CI/CD testing is
-  recommended
+The `release.ts` script now supports a `--root <path>` flag that overrides the
+automatically detected project root directory. This enables comprehensive
+testing in isolated temporary directories:
+
+```bash
+# Normal usage (uses auto-detected project root)
+deno run -A tools/release.ts patch
+
+# Testing usage (uses custom root directory)
+deno run -A tools/release.ts --root /tmp/test-project patch
+```
+
+This flag makes it possible to write full workflow integration tests
+(`release-workflow.test.ts`) that:
+
+- Create isolated test projects in temporary directories
+- Run complete release workflows without affecting the real project
+- Test version bumps, file updates, git operations, and changelog integration
+- Verify all release functionality in a safe, repeatable way
+
+### Implementation Details
+
+- The flag is optional and defaults to auto-detection via `import.meta.filename`
+- When provided, it overrides `ROOT_DIR` used throughout the script
+- All file operations (deno.json, entry point, CHANGELOG.md) use the custom root
+- Git operations are performed in the custom root directory
+- Tool script invocations (update-changelog.ts, get-changelog.ts) run in the
+  custom root
 
 ## Adding New Tests
 
