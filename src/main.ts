@@ -14,7 +14,7 @@
 
 import { parseArgs } from "@std/cli/parse-args";
 import { bold, cyan, green, red, yellow } from "@std/fmt/colors";
-import { basename, join, resolve } from "@std/path";
+import { basename, dirname, join, resolve } from "@std/path";
 
 // Script metadata
 const VERSION = "0.0.2";
@@ -225,8 +225,8 @@ async function copyFile(
     // Read from package
     const content = await Deno.readTextFile(sourcePath);
 
-    // Ensure destination directory exists
-    const destDir = destPath.substring(0, destPath.lastIndexOf("/"));
+    // Ensure destination directory exists (use dirname for cross-platform paths)
+    const destDir = dirname(destPath);
     await Deno.mkdir(destDir, { recursive: true });
 
     // Write to target

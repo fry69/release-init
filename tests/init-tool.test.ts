@@ -177,9 +177,18 @@ Deno.test("init tool - successful installation with --force", async () => {
 
 Deno.test("init tool - template files are readable from package", async () => {
   // This test verifies the core assumption: that template files can be read
-  // from the package structure using import.meta.url
+  // from the package structure using import.meta.dirname
 
-  const packageRoot = new URL("..", import.meta.url).pathname;
+  // Get package root using same approach as src/main.ts
+  let packageRoot: string;
+  if (import.meta.dirname) {
+    // Deno 2.1+: use import.meta.dirname (cross-platform)
+    packageRoot = join(import.meta.dirname, "..");
+  } else {
+    // Fallback for older Deno versions
+    const url = new URL("..", import.meta.url);
+    packageRoot = url.pathname;
+  }
 
   // Check that source files exist and are readable
   const sourceFiles = [

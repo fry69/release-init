@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.3] (unreleased)
+
+- fix Windows path issue in tests
+
 ## [0.0.2] - 2025-10-16
 
 - import code
@@ -16,6 +20,6 @@
 - minor fixes
 - tie exports to VERSION constant
 
-## [0.0.1] (unreleased)
+## [0.0.1] (internal)
 
 - initial non-functional snapshot
