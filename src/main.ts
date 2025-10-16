@@ -17,8 +17,8 @@ import { bold, cyan, green, red, yellow } from "@std/fmt/colors";
 import { basename, join, resolve } from "@std/path";
 
 // Script metadata
-const VERSION = "0.0.2";
-const SCRIPT_NAME = "release";
+const VERSION = "0.0.1";
+const SCRIPT_NAME = "release-init";
 
 // Global state for quiet mode
 let isQuiet = false;

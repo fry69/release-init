@@ -1,6 +1,6 @@
 {
-  "name": "@fry69/release",
-  "version": "0.0.2",
+  "name": "@fry69/release-init",
+  "version": "0.0.1",
   "exports": {
     ".": "./src/main.ts"
   },
@@ -19,9 +19,9 @@
     "test:unit": "deno test -P tests/main_lib_test.ts",
     "test:integration": "deno test -P tests/integration_test.ts",
     "test:cli": "deno test -P tests/cli_test.ts",
-    "compile:local": "deno compile -P --include .github --include tools --output release src/main.ts",
+    "compile:local": "deno compile -P --include .github --include tools --output release-init src/main.ts",
     "compile:ci": "deno compile -P --include .github --include tools",
-    "install:local": "deno task compile:local && cp release $HOME/.local/bin/",
+    "install:local": "deno task compile:local && cp release-init $HOME/.local/bin/",
     "init": "deno run -P src/main.ts",
     "release": "deno run -P tools/release.ts",
     "get-meta": "deno run -P tools/get-meta.ts",

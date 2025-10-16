@@ -37,7 +37,7 @@ Deno.test("init tool - version flag works", async () => {
   const stdout = new TextDecoder().decode(result.stdout);
 
   expect(result.success).toBe(true);
-  expect(stdout).toMatch(/release version \d+\.\d+\.\d+/);
+  expect(stdout).toMatch(/release-init version \d+\.\d+\.\d+/);
 });
 
 Deno.test("init tool - fails on non-existent directory", async () => {

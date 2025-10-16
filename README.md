@@ -1,4 +1,4 @@
-# @fry69/release
+# @fry69/release-init
 
 Automated release tooling for Deno projects. Handles version management,
 changelog generation, testing, and GitHub releases with optional binary
@@ -22,7 +22,7 @@ compilation.
 Initialize release automation in an existing Deno project:
 
 ```bash
-deno run -A jsr:@fry69/release
+deno run -A jsr:@fry69/release-init
 ```
 
 This copies the necessary workflows and tools to your project.
@@ -33,13 +33,13 @@ Run tools directly without installation:
 
 ```bash
 # Create a release
-deno run -A jsr:@fry69/release/tools/release patch
+deno run -A jsr:@fry69/release-init/tools/release patch
 
 # Extract metadata
-deno run -A jsr:@fry69/release/tools/get-meta
+deno run -A jsr:@fry69/release-init/tools/get-meta
 
 # Get changelog for version
-deno run -A jsr:@fry69/release/tools/get-changelog 1.0.0
+deno run -A jsr:@fry69/release-init/tools/get-changelog 1.0.0
 ```
 
 ## Components
@@ -49,7 +49,7 @@ deno run -A jsr:@fry69/release/tools/get-changelog 1.0.0
 Installs release automation to existing Deno projects.
 
 ```bash
-deno run -A jsr:@fry69/release [options] [target-directory]
+deno run -A jsr:@fry69/release-init [options] [target-directory]
 
 Options:
   --force         Overwrite existing files
@@ -124,8 +124,8 @@ Extracts project metadata from `deno.json`:
 deno task get-meta
 
 Output format (GITHUB_OUTPUT compatible):
-tool_name=release
-tool_version=0.0.2
+tool_name=release-init
+tool_version=0.0.1
 entry=./src/main.ts
 has_compile_task=true
 ```

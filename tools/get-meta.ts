@@ -69,5 +69,7 @@ const hasCompileTask = raw.tasks && typeof raw.tasks === "object" &&
 
 // Output to stdout in format: tool_name=<name>\ntool_version=<version>\nentry=<entry>\nhas_compile_task=<true|false>
 console.log(
-  `tool_name=${name}\ntool_version=${version}\nentry=${entry}\nhas_compile_task=${hasCompileTask}`,
+  `tool_name=${name}\ntool_version=${version}\nentry=${entry}\nhas_compile_task=${
+    hasCompileTask ? "true" : "false"
+  }`,
 );

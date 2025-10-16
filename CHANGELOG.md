@@ -11,6 +11,9 @@
 - conditial binary compilation in CI
 - add README
 - remove unused docs
+- revert version to 0.0.1 for upcoming release
+- rename main tool to release-init
+- minor fixes
 
 ## [0.0.1] (unreleased)
 

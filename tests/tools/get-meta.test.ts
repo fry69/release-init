@@ -292,6 +292,7 @@ Deno.test("get-meta: output format is correct", async () => {
       name: "format-test",
       version: "3.2.1",
       exports: "./lib/mod.ts",
+      tasks: { "compile:ci": "deno compile -A" },
     });
     await createEntryPoint(tempDir, "lib/mod.ts");
 
@@ -299,10 +300,11 @@ Deno.test("get-meta: output format is correct", async () => {
 
     expect(result.code).toBe(0);
     const lines = result.stdout.trim().split("\n");
-    expect(lines).toHaveLength(3);
+    expect(lines).toHaveLength(4);
     expect(lines[0]).toMatch(/^tool_name=.+$/);
     expect(lines[1]).toMatch(/^tool_version=.+$/);
     expect(lines[2]).toMatch(/^entry=.+$/);
+    expect(lines[3]).toMatch(/^has_compile_task=true$/);
   } finally {
     await Deno.remove(tempDir, { recursive: true });
   }
