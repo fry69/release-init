@@ -9,6 +9,8 @@
 - update compile task to include embedded files
 - use task for CI compilation
 - conditial binary compilation in CI
+- add README
+- remove unused docs
 
 ## [0.0.1] (unreleased)
 
