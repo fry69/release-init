@@ -19,13 +19,14 @@
     "test:unit": "deno test -P tests/main_lib_test.ts",
     "test:integration": "deno test -P tests/integration_test.ts",
     "test:cli": "deno test -P tests/cli_test.ts",
-    "compile": "deno compile -P --include .github --include tools --output release src/main.ts",
-    "install:local": "deno task compile && mv release $HOME/.local/bin/",
-    "init": "deno run -A src/main.ts",
-    "release": "deno run -A tools/release.ts",
-    "get-meta": "deno run -A tools/get-meta.ts",
-    "get-changelog": "deno run -A tools/get-changelog.ts",
-    "update-changelog": "deno run -A tools/update-changelog.ts"
+    "compile:local": "deno compile -P --include .github --include tools --output release src/main.ts",
+    "compile:ci": "deno compile -P --include .github --include tools",
+    "install:local": "deno task compile && cp release $HOME/.local/bin/",
+    "init": "deno run -P src/main.ts",
+    "release": "deno run -P tools/release.ts",
+    "get-meta": "deno run -P tools/get-meta.ts",
+    "get-changelog": "deno run -P tools/get-changelog.ts",
+    "update-changelog": "deno run -P tools/update-changelog.ts"
   },
   "imports": {
     "@std/cli": "jsr:@std/cli@^1.0.23",

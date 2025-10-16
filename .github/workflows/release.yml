@@ -76,7 +76,8 @@ jobs:
           OUT="dist/${{ steps.meta.outputs.tool_name }}-${{ steps.meta.outputs.tool_version }}-${{ matrix.target }}${{ matrix.ext }}"
           echo "Compiling: target=${{ matrix.target }} -> ${OUT}"
           mkdir -p dist
-          deno compile -A --target=${{ matrix.target }} --output="${OUT}" "${{ steps.meta.outputs.entry }}"
+          # deno compile -A --target=${{ matrix.target }} --output="${OUT}" "${{ steps.meta.outputs.entry }}"
+          deno task compile:ci --target=${{ matrix.target }} --output="${OUT}" "${{ steps.meta.outputs.entry }}"
         shell: bash
 
       - name: Show dist
