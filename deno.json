@@ -1,14 +1,30 @@
 {
   "name": "@fry69/release",
-  "version": "0.1.0",
+  "version": "0.0.2",
   "exports": {
-    ".": "./src/main.ts"
+    ".": "./tools/main.ts"
   },
   "license": "MIT",
+  "permissions": {
+    "default": {
+      "run": true,
+      "read": true,
+      "write": true,
+      "env": true
+    }
+  },
   "tasks": {
     "check": "deno fmt --check && deno lint && deno check && deno task test",
-    "release": "deno run -A tools/main.ts",
-    "test": "deno test -A"
+    "test": "deno test -P",
+    "test:unit": "deno test -P tests/main_lib_test.ts",
+    "test:integration": "deno test -P tests/integration_test.ts",
+    "test:cli": "deno test -P tests/cli_test.ts",
+    "compile": "deno compile -P --output release src/main.ts",
+    "install:local": "deno task compile && mv release $HOME/.local/bin/",
+    "release": "deno run -A tools/release.ts",
+    "get-meta": "deno run -A tools/get-meta.ts",
+    "get-changelog": "deno run -A tools/get-changelog.ts",
+    "update-changelog": "deno run -A tools/update-changelog.ts"
   },
   "imports": {
     "@std/cli": "jsr:@std/cli@^1.0.23",
