@@ -16,6 +16,8 @@
  * @module
  */
 
+export const VERSION = "0.0.1";
+
 const versionArg = Deno.args[0] ?? "";
 if (!versionArg) {
   console.error("Usage: deno run -A tools/get-changelog.ts <version>");

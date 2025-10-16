@@ -1,6 +1,8 @@
 // Reads deno.json and outputs tool_name, tool_version and entry to stdout
 // Fails early if required fields are missing
 
+export const VERSION = "0.0.1";
+
 let raw;
 try {
   raw = JSON.parse(await Deno.readTextFile("deno.json"));

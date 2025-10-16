@@ -2,7 +2,11 @@
   "name": "@fry69/release-init",
   "version": "0.0.1",
   "exports": {
-    ".": "./src/main.ts"
+    ".": "./src/main.ts",
+    "./tools/release": "./tools/release.ts",
+    "./tools/get-meta": "./tools/get-meta.ts",
+    "./tools/get-changelog": "./tools/get-changelog.ts",
+    "./tools/update-changelog": "./tools/update-changelog.ts"
   },
   "license": "MIT",
   "permissions": {

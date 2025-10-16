@@ -14,6 +14,7 @@
 - revert version to 0.0.1 for upcoming release
 - rename main tool to release-init
 - minor fixes
+- tie exports to VERSION constant
 
 ## [0.0.1] (unreleased)
 

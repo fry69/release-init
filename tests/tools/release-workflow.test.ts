@@ -399,7 +399,7 @@ Deno.test("release workflow: quiet mode suppresses output", async () => {
   }
 });
 
-Deno.test("release workflow: fails without VERSION constant", async () => {
+Deno.test("release workflow: skips files without VERSION constant", async () => {
   const project = await createTestProject("no-version-test", "1.0.0");
   try {
     // Create main.ts without VERSION constant
@@ -428,8 +428,9 @@ Deno.test("release workflow: fails without VERSION constant", async () => {
       "1.1.0",
     ]);
 
-    expect(result.code).toBe(1);
-    expect(result.stderr).toContain("Failed to update VERSION constant");
+    // Should succeed with warning about no VERSION constants found
+    expect(result.code).toBe(0);
+    expect(result.stdout).toContain("No VERSION constants found");
   } finally {
     await project.cleanup();
   }

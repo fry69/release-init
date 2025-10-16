@@ -26,6 +26,7 @@ interface ProjectMeta {
   packageName: string;
   version: string;
   entryPoint: string;
+  exportedFiles: string[];
 }
 
 // Global state for quiet mode
@@ -93,6 +94,23 @@ async function getChangelog(version: string): Promise<string> {
   }
 }
 
+// Helper: Extract all exported file paths from deno.json
+function getExportedFiles(
+  config: Record<string, unknown>,
+): string[] {
+  if (!config.exports) return [];
+
+  if (typeof config.exports === "string") {
+    return [config.exports];
+  } else if (typeof config.exports === "object" && config.exports !== null) {
+    return Object.values(config.exports).filter((v): v is string =>
+      typeof v === "string"
+    );
+  }
+
+  return [];
+}
+
 // Helper: Read and parse project metadata
 async function getProjectMeta(): Promise<ProjectMeta> {
   const denoJsonPath = join(ROOT_DIR, "deno.json");
@@ -114,12 +132,15 @@ async function getProjectMeta(): Promise<ProjectMeta> {
     entryPoint = config.exports["."];
   }
 
+  const exportedFiles = getExportedFiles(config);
+
   return {
     name: fullName,
     scope,
     packageName,
     version: config.version,
     entryPoint,
+    exportedFiles,
   };
 }
 
@@ -235,24 +256,10 @@ try {
 
   log.blank();
 
-  // Update version files
-  const versionFile = join(ROOT_DIR, meta.entryPoint);
+  // Update version in deno.json
   const denoJsonFile = join(ROOT_DIR, "deno.json");
-
-  log.step(`Updating ${meta.entryPoint}...`);
-  let content = await Deno.readTextFile(versionFile);
-  const updated = content.replace(
-    /(?:export )?const VERSION = "[^"]+";/,
-    (match) => match.replace(/"[^"]+"/, `"${nextVersion}"`),
-  );
-  if (content === updated) {
-    exitError(`Failed to update VERSION constant in ${meta.entryPoint}`);
-  }
-  await Deno.writeTextFile(versionFile, updated);
-  log.success(`Updated ${meta.entryPoint}`);
-
   log.step("Updating deno.json...");
-  content = await Deno.readTextFile(denoJsonFile);
+  let content = await Deno.readTextFile(denoJsonFile);
   const updatedJson = content.replace(
     /"version":\s*"[^"]+"/,
     `"version": "${nextVersion}"`,
@@ -262,6 +269,51 @@ try {
   }
   await Deno.writeTextFile(denoJsonFile, updatedJson);
   log.success("Updated deno.json");
+
+  // Update VERSION constants in all exported files
+  log.blank();
+  log.step("Updating VERSION constants in exported files...");
+  let updatedCount = 0;
+
+  for (const exportPath of meta.exportedFiles) {
+    const filePath = join(ROOT_DIR, exportPath);
+
+    try {
+      content = await Deno.readTextFile(filePath);
+
+      // Check if file contains VERSION constant
+      if (!/(?:export )?const VERSION = "[^"]+";/.test(content)) {
+        // Skip silently - not all exported files need VERSION
+        continue;
+      }
+
+      const updated = content.replace(
+        /(?:export )?const VERSION = "[^"]+";/,
+        (match) => match.replace(/"[^"]+"/, `"${nextVersion}"`),
+      );
+
+      if (content === updated) {
+        log.warn(`Found VERSION in ${exportPath} but failed to update it`);
+        continue;
+      }
+
+      await Deno.writeTextFile(filePath, updated);
+      log.success(`Updated ${exportPath}`);
+      updatedCount++;
+    } catch (error) {
+      log.warn(
+        `Could not update ${exportPath}: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+    }
+  }
+
+  if (updatedCount === 0) {
+    log.warn("No VERSION constants found in exported files");
+  } else {
+    log.info(`Updated ${updatedCount} file(s) with VERSION constants`);
+  }
 
   // Update CHANGELOG.md with release date
   log.step("Updating CHANGELOG.md...");
