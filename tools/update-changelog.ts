@@ -18,7 +18,7 @@
  */
 
 /** Version of the update-changelog tool */
-export const VERSION = "0.0.2";
+export const VERSION = "0.0.3";
 
 const versionArg = Deno.args[0] ?? "";
 if (!versionArg) {

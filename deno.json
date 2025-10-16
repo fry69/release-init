@@ -1,6 +1,6 @@
 {
   "name": "@fry69/release-init",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "exports": {
     ".": "./src/main.ts",
     "./tools/release": "./tools/release.ts",

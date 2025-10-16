@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.0.3] (unreleased)
+## [0.0.3] - 2025-10-16
 
 - fix Windows path issue in tests
 - minor README fixes
