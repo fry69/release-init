@@ -114,7 +114,7 @@ async function runRelease(
   const scriptPath = join(Deno.cwd(), "tools", "release.ts");
 
   const command = new Deno.Command("deno", {
-    args: ["run", "-A", scriptPath, "--root", projectDir, ...args],
+    args: ["run", "-A", scriptPath, ...args],
     cwd: projectDir,
     stdout: "piped",
     stderr: "piped",

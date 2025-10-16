@@ -112,21 +112,22 @@ deno coverage coverage/
 4. **Independence**: Tests don't depend on each other
 5. **Realistic**: Integration tests simulate real-world workflows
 
-## The --root Flag Solution
+## Workflow Testing Strategy
 
-The `release.ts` script now supports a `--root <path>` flag that overrides the
-automatically detected project root directory. This enables comprehensive
-testing in isolated temporary directories:
+All tool scripts use `Deno.cwd()` to determine the project root directory,
+making them simple to test by setting the working directory to a temporary test
+project:
 
-```bash
-# Normal usage (uses auto-detected project root)
-deno run -A tools/release.ts patch
-
-# Testing usage (uses custom root directory)
-deno run -A tools/release.ts --root /tmp/test-project patch
+```typescript
+const command = new Deno.Command("deno", {
+  args: ["run", "-A", "tools/release.ts", "patch"],
+  cwd: tempProjectDir, // Script uses cwd as project root
+  stdout: "piped",
+  stderr: "piped",
+});
 ```
 
-This flag makes it possible to write full workflow integration tests
+This approach enables comprehensive workflow integration tests
 (`release-workflow.test.ts`) that:
 
 - Create isolated test projects in temporary directories
@@ -134,14 +135,14 @@ This flag makes it possible to write full workflow integration tests
 - Test version bumps, file updates, git operations, and changelog integration
 - Verify all release functionality in a safe, repeatable way
 
-### Implementation Details
+### Why This Works
 
-- The flag is optional and defaults to auto-detection via `import.meta.filename`
-- When provided, it overrides `ROOT_DIR` used throughout the script
-- All file operations (deno.json, entry point, CHANGELOG.md) use the custom root
-- Git operations are performed in the custom root directory
-- Tool script invocations (update-changelog.ts, get-changelog.ts) run in the
-  custom root
+- **Consistency**: All tools (get-meta, get-changelog, update-changelog,
+  release) use cwd the same way
+- **Simplicity**: No special flags needed - just set cwd when spawning commands
+- **Natural**: Matches real-world usage where tools are always run from project
+  root
+- **Portable**: Works identically across all platforms
 
 ## Adding New Tests
 

@@ -11,14 +11,14 @@
 import { parseArgs } from "@std/cli/parse-args";
 import * as semver from "@std/semver";
 import { bold, green, red, yellow } from "@std/fmt/colors";
-import { dirname, join } from "@std/path";
+import { join } from "@std/path";
 
 // Script metadata
 const VERSION = "0.0.2";
 const SCRIPT_NAME = "release";
 
-// Project root directory (can be overridden with --root flag)
-let ROOT_DIR = join(dirname(import.meta.filename!), "..");
+// Project root directory (current working directory)
+const ROOT_DIR = Deno.cwd();
 
 interface ProjectMeta {
   name: string;
@@ -132,7 +132,6 @@ ${bold("Options:")}
   -d, --dry-run      Stop before pushing to GitHub
   -y, --yes          Skip confirmation prompt (auto-confirm)
   -q, --quiet        Suppress non-essential output
-  -r, --root <path>  Override project root directory (for testing)
   -h, --help         Show this help message
   -v, --version      Show script version
 
@@ -143,21 +142,20 @@ ${bold("Examples:")}
   ${SCRIPT_NAME} major                # Bump major (0.2.4 -> 1.0.0)
   ${SCRIPT_NAME} --dry-run patch      # Stop before pushing to GitHub
   ${SCRIPT_NAME} --yes --quiet patch  # Non-interactive mode
-  ${SCRIPT_NAME} --root /tmp/project patch  # Use custom project directory
+
+${bold("Note:")} This script must be run from the project root directory.
 `);
 }
 
 // Parse CLI arguments
 const args = parseArgs(Deno.args, {
   boolean: ["dry-run", "help", "version", "yes", "quiet"],
-  string: ["root"],
   alias: {
     d: "dry-run",
     h: "help",
     v: "version",
     y: "yes",
     q: "quiet",
-    r: "root",
   },
   stopEarly: false,
 });
@@ -182,14 +180,6 @@ if (!versionArg) {
 const dryRun = args["dry-run"];
 const autoConfirm = args.yes;
 isQuiet = args.quiet;
-
-// Override ROOT_DIR if --root flag is provided
-if (args.root) {
-  ROOT_DIR = args.root as string;
-  if (!isQuiet) {
-    log.info(`Using custom root directory: ${ROOT_DIR}`);
-  }
-}
 
 // Main execution
 try {
