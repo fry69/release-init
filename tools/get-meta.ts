@@ -63,5 +63,11 @@ try {
   Deno.exit(1);
 }
 
-// Output to stdout in format: tool_name=<name>\ntool_version=<version>\nentry=<entry>
-console.log(`tool_name=${name}\ntool_version=${version}\nentry=${entry}`);
+// Check if compile:ci task exists (optional - for conditional binary compilation)
+const hasCompileTask = raw.tasks && typeof raw.tasks === "object" &&
+  "compile:ci" in raw.tasks;
+
+// Output to stdout in format: tool_name=<name>\ntool_version=<version>\nentry=<entry>\nhas_compile_task=<true|false>
+console.log(
+  `tool_name=${name}\ntool_version=${version}\nentry=${entry}\nhas_compile_task=${hasCompileTask}`,
+);

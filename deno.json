@@ -21,7 +21,7 @@
     "test:cli": "deno test -P tests/cli_test.ts",
     "compile:local": "deno compile -P --include .github --include tools --output release src/main.ts",
     "compile:ci": "deno compile -P --include .github --include tools",
-    "install:local": "deno task compile && cp release $HOME/.local/bin/",
+    "install:local": "deno task compile:local && cp release $HOME/.local/bin/",
     "init": "deno run -P src/main.ts",
     "release": "deno run -P tools/release.ts",
     "get-meta": "deno run -P tools/get-meta.ts",

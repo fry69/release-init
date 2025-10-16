@@ -8,6 +8,7 @@
 - implement init tool
 - update compile task to include embedded files
 - use task for CI compilation
+- conditial binary compilation in CI
 
 ## [0.0.1] (unreleased)
 
