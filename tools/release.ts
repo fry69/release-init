@@ -14,7 +14,7 @@ import { bold, green, red, yellow } from "@std/fmt/colors";
 import { join } from "@std/path";
 
 // Script metadata
-const VERSION = "0.0.1";
+const VERSION = "0.0.2";
 const SCRIPT_NAME = "release";
 
 // Project root directory (current working directory)

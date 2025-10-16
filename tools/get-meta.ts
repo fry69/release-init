@@ -1,7 +1,7 @@
 // Reads deno.json and outputs tool_name, tool_version and entry to stdout
 // Fails early if required fields are missing
 
-export const VERSION = "0.0.1";
+export const VERSION = "0.0.2";
 
 let raw;
 try {
