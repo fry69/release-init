@@ -4,6 +4,7 @@
 
 - fix Windows path issue in tests
 - minor README fixes
+- add JSR badges
 
 ## [0.0.2] - 2025-10-16
 

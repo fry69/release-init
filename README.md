@@ -1,3 +1,6 @@
+[![JSR](https://jsr.io/badges/@fry69/release-init)](https://jsr.io/@fry69/release-init)
+[![JSR Score](https://jsr.io/badges/@fry69/release-init/score)](https://jsr.io/@fry69/release-init/score)
+
 # release-init
 
 Automated release tooling for Deno projects. Handles version management,
