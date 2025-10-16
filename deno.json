@@ -2,7 +2,7 @@
   "name": "@fry69/release",
   "version": "0.0.2",
   "exports": {
-    ".": "./tools/main.ts"
+    ".": "./src/main.ts"
   },
   "license": "MIT",
   "permissions": {
@@ -21,6 +21,7 @@
     "test:cli": "deno test -P tests/cli_test.ts",
     "compile": "deno compile -P --output release src/main.ts",
     "install:local": "deno task compile && mv release $HOME/.local/bin/",
+    "init": "deno run -A src/main.ts",
     "release": "deno run -A tools/release.ts",
     "get-meta": "deno run -A tools/get-meta.ts",
     "get-changelog": "deno run -A tools/get-changelog.ts",
