@@ -3,6 +3,7 @@
 ## [0.0.3] (unreleased)
 
 - fix Windows path issue in tests
+- minor README fixes
 
 ## [0.0.2] - 2025-10-16
 
