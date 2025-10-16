@@ -6,6 +6,7 @@
 - minor README fixes
 - add JSR badges
 - add missing JSDoc comments
+- update lockfile
 
 ## [0.0.2] - 2025-10-16
 
