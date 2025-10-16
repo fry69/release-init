@@ -16,6 +16,7 @@
  * @module
  */
 
+/** Version of the get-changelog tool */
 export const VERSION = "0.0.2";
 
 const versionArg = Deno.args[0] ?? "";

@@ -1,6 +1,24 @@
-// Reads deno.json and outputs tool_name, tool_version and entry to stdout
-// Fails early if required fields are missing
+#!/usr/bin/env -S deno run --allow-read
+/**
+ * Extract project metadata from deno.json
+ *
+ * Reads deno.json and outputs metadata in GitHub Actions output format:
+ * - tool_name: sanitized package name (without scope)
+ * - tool_version: current version
+ * - entry: main entry point path
+ * - has_compile_task: whether compile:ci task exists
+ *
+ * This tool is used by the release workflow to determine build configuration.
+ *
+ * Usage:
+ *   get-meta.ts
+ *
+ * Outputs to stdout in GITHUB_OUTPUT format (key=value pairs)
+ *
+ * @module
+ */
 
+/** Version of the get-meta tool */
 export const VERSION = "0.0.2";
 
 let raw;
